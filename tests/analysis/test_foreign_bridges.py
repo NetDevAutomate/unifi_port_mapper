@@ -17,15 +17,29 @@ FLEX5 = '94:2a:6f:4e:65:5e'
 EERO = '24:2d:6c:90:3b:c0'
 EERO2 = '2c:2f:f4:de:21:c0'
 
-TRUNK = {'_id': 'prof-trunk', 'name': 'Trunk VLAN 1 Home 1 Gbps',
-         'forward': 'all', 'tagged_vlan_mgmt': 'auto'}
-ACCESS = {'_id': 'prof-access', 'name': 'Access Port VLAN 1 Home 1Gbps',
-          'forward': 'native', 'tagged_vlan_mgmt': 'block_all'}
+TRUNK = {
+    '_id': 'prof-trunk',
+    'name': 'Trunk VLAN 1 Home 1 Gbps',
+    'forward': 'all',
+    'tagged_vlan_mgmt': 'auto',
+}
+ACCESS = {
+    '_id': 'prof-access',
+    'name': 'Access Port VLAN 1 Home 1Gbps',
+    'forward': 'native',
+    'tagged_vlan_mgmt': 'block_all',
+}
 
 
 def _switch(mac: str, name: str, ports: list[dict]) -> dict:
-    return {'_id': f'dev-{mac}', 'mac': mac, 'name': name, 'type': 'usw',
-            'state': 1, 'port_table': ports}
+    return {
+        '_id': f'dev-{mac}',
+        'mac': mac,
+        'name': name,
+        'type': 'usw',
+        'state': 1,
+        'port_table': ports,
+    }
 
 
 def _port(idx: int, profile: str, last_mac: str | None = None, name: str = '') -> dict:
@@ -51,8 +65,14 @@ def test_client_behind_non_adopted_mac_reveals_a_bridge() -> None:
     """A client whose sw_mac is not an adopted device means a foreign bridge."""
     devices = [_switch(FLEX8, 'Lounge Flex8', [_port(8, 'prof-access', last_mac=EERO)])]
     clients = [
-        {'mac': EERO, 'sw_mac': FLEX8, 'sw_port': 8, 'ip': '192.168.125.181',
-         'oui': 'eero inc.', 'hostname': 'eero'},
+        {
+            'mac': EERO,
+            'sw_mac': FLEX8,
+            'sw_port': 8,
+            'ip': '192.168.125.181',
+            'oui': 'eero inc.',
+            'hostname': 'eero',
+        },
         {'mac': 'aa:bb:cc:00:00:02', 'sw_mac': EERO, 'sw_port': 1, 'ip': '192.168.125.50'},
     ]
 
